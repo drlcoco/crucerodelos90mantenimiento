@@ -21,7 +21,8 @@ export class AppComponent implements AfterViewInit {
   readonly punchlineLines = this.buildPunchlineLines(['ALGO MUY', 'GRANDE.']);
 
   letterDelay(index: number): string {
-    return `${900 + index * 45}ms`;
+    // Cadencia más lenta y deliberada entre cada letra.
+    return `${1100 + index * 90}ms`;
   }
 
   private buildPunchlineLines(lines: string[]) {
