@@ -1,0 +1,62 @@
+<main class="maintenance-page">
+  <!--
+    Imagen a pantalla completa, sin deformarse ni recortarse (caja con el
+    aspect-ratio nativo de la imagen, centrada).
+    - < md (sm y xs): mantenimientosm.png (formato vertical, imagen actual).
+    - >= md: cuando se reciba la imagen 16:9 se añadirá un <source media="(min-width: 768px)">
+      apuntando a "assets/images/mantenimiento-md.jpg" dentro del <picture>, junto con
+      su propia posición de círculo (--circle-left/top/size ) para el vídeo.
+  -->
+  <div class="poster-frame">
+    <div class="poster-box">
+      <!-- El vídeo queda detrás de la imagen; se ve a través del círculo transparente -->
+      <div class="poster-video-circle" aria-hidden="true">
+        <video
+          #posterVideo
+          class="poster-video"
+          [src]="videoSrc"
+          [muted]="true"
+          autoplay
+          loop
+          playsinline
+          webkit-playsinline
+        ></video>
+      </div>
+
+      <picture class="poster-picture">
+        <img
+          src="assets/images/mantenimientosm.png"
+          alt="El Crucero de los 90, 5ª edición 2027. Os estamos preparando algo muy grande."
+          class="poster-img"
+        >
+      </picture>
+
+      <!--
+        El cartel ya no lleva el titular "quemado" en el PNG (hueco oscuro
+        bajo el círculo): se reconstruye aquí con los mismos estilos
+        (tipografía condensada, degradados neón, contorno rosa) y se anima.
+      -->
+      <div
+        class="headline"
+        aria-label="Os estamos preparando algo muy grande. El Crucero de los 90, 5ª edición 2027. Reservas en el 657 550 212."
+      >
+        <p class="headline-intro" aria-hidden="true">Os estamos preparando</p>
+
+        <p class="headline-punch" aria-hidden="true">
+          <span class="headline-punch-line" *ngFor="let line of punchlineLines">
+            <span
+              class="letter"
+              *ngFor="let letter of line.letters"
+              [style.animation-delay]="letterDelay(letter.index)"
+            >{{ letter.char === ' ' ? '\u00A0' : letter.char }}</span>
+          </span>
+        </p>
+
+        <p class="headline-sub" aria-hidden="true">El Crucero de los 90</p>
+        <p class="headline-year" aria-hidden="true">5<sup>ª</sup> ed. 2027</p>
+        <p class="headline-ribbon" aria-hidden="true">Reservas en el 657&nbsp;550&nbsp;212</p>
+      </div>
+    </div>
+    <div class="poster-vignette" aria-hidden="true"></div>
+  </div>
+</main>

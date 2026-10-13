@@ -1,0 +1,213 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.maintenance-page {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #140022;
+}
+
+// --- Imagen a pantalla completa --------------------------------------------
+.poster-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+// Caja con el aspect-ratio nativo de la imagen: se ajusta al viewport sin
+// recortar ni deformar (equivalente a object-fit: contain, pero fiable para
+// posicionar el círculo del vídeo con porcentajes exactos encima).
+.poster-box {
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+  // Permite usar unidades cqw/cqh: el texto del titular escala exactamente
+  // igual que la imagen, sea cual sea el tamaño final de pantalla.
+  container-type: inline-size;
+  --poster-ratio: 1049 / 1500;
+  aspect-ratio: var(--poster-ratio);
+
+  @media (min-width: 768px) {
+    // Cuando llegue la imagen 16:9, actualizar este ratio (y el de --circle-*).
+    --poster-ratio: 1049 / 1500;
+  }
+}
+
+.poster-picture,
+.poster-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.poster-picture {
+  position: absolute;
+  inset: 0;
+}
+
+// Círculo transparente del cartel: posición medida en % sobre la imagen
+// original (1049x1500px), para que el vídeo quede siempre alineado con el hueco.
+.poster-video-circle {
+  position: absolute;
+  left: 13.61%;
+  top: 11.61%;
+  width: 73.03%;
+  height: 51.07%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #140022;
+}
+
+.poster-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.38) 100%);
+}
+
+// --- Titular animado (hueco oscuro bajo el círculo, entre éste y la franja
+// amarilla) ------------------------------------------------------------
+.headline {
+  position: absolute;
+  left: 6%;
+  width: 88%;
+  top: 62.8%;
+  height: 23.6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em;
+  text-align: center;
+  font-family: 'Arial Black', Haettenschweiler, Impact, sans-serif;
+  text-transform: uppercase;
+}
+
+.headline-intro,
+.headline-sub,
+.headline-year {
+  margin: 0;
+  color: #fff;
+  font-weight: 800;
+  font-style: italic;
+  -webkit-text-stroke: clamp(1px, 0.35cqw, 2px) #c2126b;
+  text-shadow: 0 clamp(1px, 0.3cqw, 3px) 0 rgba(20, 0, 34, 0.55);
+  opacity: 0;
+  transform: translateY(0.6em);
+  animation: fade-slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.headline-intro {
+  font-size: clamp(0.8rem, 5.4cqw, 1.9rem);
+  animation-delay: 0.2s;
+}
+
+.headline-sub {
+  font-size: clamp(0.85rem, 5.6cqw, 2rem);
+  animation-delay: 1.75s;
+}
+
+.headline-year {
+  font-size: clamp(1rem, 6.6cqw, 2.4rem);
+  animation-delay: 1.95s;
+
+  sup {
+    font-size: 0.6em;
+  }
+}
+
+@keyframes fade-slide-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.headline-punch {
+  margin: 0.05em 0;
+  font-size: clamp(1.4rem, 9.2cqw, 4rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .headline-punch-line {
+    // Cada l\u00ednea es un bloque \u00e1tomo: nunca se parte a mitad de palabra.
+    display: block;
+    white-space: nowrap;
+  }
+
+  .letter {
+    display: inline-block;
+    background: linear-gradient(180deg, #fff6b8 0%, #ffb648 50%, #ff7a1a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: clamp(1px, 0.5cqw, 3px) #c2126b;
+    filter: drop-shadow(0 clamp(1px, 0.35cqw, 3px) 0 rgba(20, 0, 34, 0.65));
+    opacity: 0;
+    transform: translateY(0.5em) scale(0.92);
+    animation: letter-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+@keyframes letter-pop {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.headline-ribbon {
+  margin: 0.3em 0 0;
+  display: inline-block;
+  background: linear-gradient(180deg, #4be9f2, #1fc3cc);
+  color: #c2126b;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(0.6rem, 3.6cqw, 1.2rem);
+  padding: 0.35em 1.1em;
+  border-radius: 999px;
+  transform: rotate(-2deg) translateY(0.8em);
+  box-shadow: 0 clamp(2px, 0.4cqw, 4px) 0 rgba(20, 0, 34, 0.4);
+  opacity: 0;
+  animation: ribbon-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.15s forwards;
+}
+
+@keyframes ribbon-in {
+  to {
+    opacity: 1;
+    transform: rotate(-2deg) translateY(0);
+  }
+}
+
+// Respeta a quien prefiere menos movimiento
+@media (prefers-reduced-motion: reduce) {
+  .headline-intro,
+  .headline-sub,
+  .headline-year,
+  .headline-punch .letter,
+  .headline-ribbon {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
